@@ -5,6 +5,8 @@ A simple python wrapper for The Marvel Comics API.
 # How to use
 
 ```
+from marvelpy import Marvel
+
 marvel = Marvel(api_key=YOUR_API_KEY, private_key=YOUR_PRIVATE_KEY)
 
 # get characters
