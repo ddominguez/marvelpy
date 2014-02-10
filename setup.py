@@ -7,5 +7,6 @@ setup(
     version='0.1',
     packages=['marvelpy'],
     install_requires=['requests'],
-    license='MIT'
+    license='MIT',
+    url='https://github.com/ddominguez/marvelpy'
 )
