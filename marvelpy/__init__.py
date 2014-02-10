@@ -1,0 +1,1 @@
+from marvelpy import Marvel
