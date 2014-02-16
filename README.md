@@ -9,6 +9,10 @@ from marvelpy import Marvel
 
 marvel = Marvel(api_key=YOUR_API_KEY, private_key=YOUR_PRIVATE_KEY)
 
+# attribution text
+print marvel.attribution
+'Data provided by Marvel. &copy; 2014 Marvel'
+
 # get characters
 response = marvel.characters()
 # response is a Response object which contains a server's response to an HTTP request
