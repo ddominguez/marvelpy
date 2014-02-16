@@ -2,8 +2,10 @@ import requests
 from hashlib import md5
 from time import time
 
+
 class MarvelpyError(Exception):
     pass
+
 
 class Marvel(object):
     def __init__(self, api_key, private_key, version=1):
