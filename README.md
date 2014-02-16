@@ -62,8 +62,13 @@ print response.status_code # 200
 etag = response.headers['etag']
 
 response = marvel.characters(etag=etag)
+# if data has not changed
 print response.text # empty
 print response.status_code # 304
+
+# if data has changed
+print response.text # content
+print response.status_code # 200
 ```
 
 For more information about available lists and parameters, please refer to The Marvel Comics API documentation - http://developer.marvel.com/docs.
