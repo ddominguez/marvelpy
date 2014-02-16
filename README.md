@@ -10,46 +10,60 @@ from marvelpy import Marvel
 marvel = Marvel(api_key=YOUR_API_KEY, private_key=YOUR_PRIVATE_KEY)
 
 # get characters
-result = marvel.characters()
-print result # json formatted string
+response = marvel.characters()
+# response is a Response object which contains a server's response to an HTTP request
+print response.text # Content of the response, in unicode.
+print response.status_code # status code
+print response.headers['etag'] # etag
+# response.json() Returns the json-encoded content of a response, if any.
 
 # get characters with filters
 params = {'name': 'Cable'}
-result = marvel.characters(params=params)
-print result
+response = marvel.characters(params=params)
+print response.text
 
 # Get character by id
-result = marvel.characters(id=1009214)
-print result
+response = marvel.characters(id=1009214)
+print response.text
 
 # Get all comics containing specific character
-result = marvel.characters(id=1009214, list_type='comics')
-print result
+response = marvel.characters(id=1009214, list_type='comics')
+print response.text
 
 # Get all comics containing specific character with filters
 params = {'format': 'trade paperback'}
-result = marvel.characters(id=1009214, list_type='comics', params=params)
-print result
+response = marvel.characters(id=1009214, list_type='comics', params=params)
+print response.text
 
 # get comics
-result = marvel.comics()
-print result
+response = marvel.comics()
+print response.text
 
 # get creators
-result = marvel.creators()
-print result
+response = marvel.creators()
+print response.text
 
 # get events
-result = marvel.events()
-print result
+response = marvel.events()
+print response.text
 
 # get series
-result = marvel.series()
-print result
+response = marvel.series()
+print response.text
 
 # get stories
-result = marvel.stories()
-print result
+response = marvel.stories()
+print response.text
+
+# make a request with etags
+response = marvel.characters()
+print response.text
+print response.status_code # 200
+etag = response.headers['etag']
+
+response = marvel.characters(etag=etag)
+print response.text # empty
+print response.status_code # 304
 ```
 
 For more information about available lists and parameters, please refer to The Marvel Comics API documentation - http://developer.marvel.com/docs.
