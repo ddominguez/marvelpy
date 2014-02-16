@@ -66,6 +66,12 @@ response = marvel.characters(etag=etag)
 # if data has changed, status code will be 200 with updated content
 print response.text
 print response.status_code
+
+# get data using marvel api resource uri
+# will also accept params and etag arguments
+# > response = marvel.get(url='RESOURCE_URI', params=DICT_OF_FILTERS, etag=ETAG_STRING)
+response = marvel.get('http://gateway.marvel.com/v1/public/comics/39770')
+print response.text
 ```
 
 For more information about available lists and parameters, please refer to The Marvel Comics API documentation - http://developer.marvel.com/docs.
