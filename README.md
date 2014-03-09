@@ -73,7 +73,7 @@ print response.status_code
 
 # get data using marvel api resource uri
 # will also accept params and etag arguments
-# > response = marvel.get(url='RESOURCE_URI', params=DICT_OF_FILTERS, etag=ETAG_STRING)
+# > response = marvel.get(uri='RESOURCE_URI', params=DICT_OF_FILTERS, etag=ETAG_STRING)
 response = marvel.get('http://gateway.marvel.com/v1/public/comics/39770')
 print response.text
 ```

@@ -11,22 +11,24 @@ class Marvel(object):
     def __init__(self, api_key, private_key, version=1):
         self._api_key = api_key
         self._private_key = private_key
-        self._base_url = 'http://gateway.marvel.com/v%s/public' % version
+        self._base_uri = 'http://gateway.marvel.com/v%s/public' % version
 
-    def get(self, url, params={}, etag=None):
-        if url.strip() == '':
-            raise MarvelpyError('Resource URL is blank.')
+    def get(self, uri, params={}, etag=None):
+        if uri.strip() == '':
+            raise MarvelpyError('Resource URI is blank.')
+        if not uri.startswith(self._base_uri):
+            raise MarvelpyError('Invalid Marvel API URI.')
         ts = str(time())
         hash = md5(ts + self._private_key + self._api_key)
         params.update({'apikey': self._api_key, 'ts': ts, 'hash': hash.hexdigest()})
         headers = {'Accept': 'application/json'}
         if etag:
             headers.update({'If-None-Match': etag})
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(uri, params=params, headers=headers)
         return response
 
     def _resource_uri(self, api, id=None, list_type=None):
-        uri = '%s/%s' % (self._base_url, api)
+        uri = '%s/%s' % (self._base_uri, api)
         if id is not None:
             uri = '%s/%s' % (uri, id)
             if list_type is not None:
