@@ -47,10 +47,6 @@ class Marvel(object):
 
         return (kw['id'], kw['list_type'], kw['params'], kw['etag'])
 
-    @property
-    def attribution(self):
-        return 'Data provided by Marvel. &copy; 2014 Marvel'
-
     def characters(self, **kwargs):
         id, list_type, params, etag = self._kwargs(kwargs)
         return self.get(self._resource_uri('characters', id, list_type), params, etag)
