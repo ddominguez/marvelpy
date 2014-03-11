@@ -102,9 +102,58 @@ class Marvel(object):
                     'height': 324
                 }
             },
-            'standard': {},
-            'landscape': {},
-            'full': {}
+            'standard': {
+                'small': {
+                    'width': 65,
+                    'height': 45
+                },
+                'medium': {
+                    'width': 100,
+                    'height': 100
+                },
+                'large': {
+                    'width': 140,
+                    'height': 140
+                },
+                'xlarge': {
+                    'width': 200,
+                    'height': 200
+                },
+                'fantastic': {
+                    'width': 250,
+                    'height': 250
+                },
+                'amazing': {
+                    'width': 180,
+                    'height': 180
+                }
+            },
+            'landscape': {
+                'small': {
+                    'width': 120,
+                    'height': 90
+                },
+                'medium': {
+                    'width': 175,
+                    'height': 130
+                },
+                'large': {
+                    'width': 190,
+                    'height': 140
+                },
+                'xlarge': {
+                    'width': 270,
+                    'height': 200
+                },
+                'amazing': {
+                    'width': 250,
+                    'height': 156
+                },
+                'incredible': {
+                    'width': 464,
+                    'height': 261
+                }
+            }
         }
 
     def image(self, image_object, type, size):
