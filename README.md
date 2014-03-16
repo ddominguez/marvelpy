@@ -72,6 +72,18 @@ print response.status_code
 # > response = marvel.get(uri='RESOURCE_URI', params=DICT_OF_FILTERS, etag=ETAG_STRING)
 response = marvel.get('http://gateway.marvel.com/v1/public/comics/39770')
 print response.text
+
+# get thumbail and image urls
+# > marvel.image(IMAGE_OBJECT, IMAGE_TYPE, IMAGE_SIZE)
+# types: portrait, standard, landscape, full
+# sizes: small, medium, large, ..etc
+# see more sizes at http://developer.marvel.com/documentation/images
+response = marvel.characters(id=1009214)
+result = response.json()['data']['results'][0]
+thumbnail = marvel.image(result['thumbnail'], 'landscape', 'incredible')
+print thumbnail
+'{'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584/landscape_incredible.jpg', 'width': 464, 'height': 261}'
+# NOTE: full images do not return width or height
 ```
 
 For more information about available lists and parameters, please refer to The Marvel Comics API documentation - http://developer.marvel.com/docs.
