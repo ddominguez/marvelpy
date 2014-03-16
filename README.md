@@ -84,7 +84,7 @@ result = response.json()['data']['results'][0]
 thumbnail = marvel.image(result['thumbnail'], 'standard', 'medium')
 fullimage = marvel.image(result['thumbnail'], 'full', 'full')
 print thumbnail
-# {'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584/landscape_incredible.jpg', 'width': 464, 'height': 261}
+# {'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584/standard_medium.jpg', 'width': 100, 'height': 100}
 print fullimage
 # {'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584.jpg'}
 # NOTE: full images do not return width or height
