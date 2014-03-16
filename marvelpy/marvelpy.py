@@ -72,3 +72,111 @@ class Marvel(object):
 
     def stories(self, **kwargs):
         return self._get_response('stories', kwargs)
+
+    @property
+    def _image_metadata(self):
+        return {
+            'portrait': {
+                'small': {
+                    'width': 50,
+                    'height': 75
+                },
+                'medium': {
+                    'width': 100,
+                    'height': 150
+                },
+                'xlarge': {
+                    'width': 150,
+                    'height': 225
+                },
+                'fantastic': {
+                    'width': 168,
+                    'height': 252
+                },
+                'uncanny': {
+                    'width': 300,
+                    'height': 450
+                },
+                'incredible': {
+                    'width': 216,
+                    'height': 324
+                }
+            },
+            'standard': {
+                'small': {
+                    'width': 65,
+                    'height': 45
+                },
+                'medium': {
+                    'width': 100,
+                    'height': 100
+                },
+                'large': {
+                    'width': 140,
+                    'height': 140
+                },
+                'xlarge': {
+                    'width': 200,
+                    'height': 200
+                },
+                'fantastic': {
+                    'width': 250,
+                    'height': 250
+                },
+                'amazing': {
+                    'width': 180,
+                    'height': 180
+                }
+            },
+            'landscape': {
+                'small': {
+                    'width': 120,
+                    'height': 90
+                },
+                'medium': {
+                    'width': 175,
+                    'height': 130
+                },
+                'large': {
+                    'width': 190,
+                    'height': 140
+                },
+                'xlarge': {
+                    'width': 270,
+                    'height': 200
+                },
+                'amazing': {
+                    'width': 250,
+                    'height': 156
+                },
+                'incredible': {
+                    'width': 464,
+                    'height': 261
+                }
+            }
+        }
+
+    def image(self, image_object, type, size):
+        if set(['path', 'extension']) != set(image_object.keys()):
+            raise MarvelpyError('Marvel image object missing path or extension.')
+
+        if type == 'full' and size == 'detail':
+            return {
+                'url': '%s/detail.%s' % (image_object['path'], image_object['extension'])
+            }
+        if type == 'full' and size == 'full':
+            return {
+                'url': '%s.%s' % (image_object['path'], image_object['extension'])
+            }
+
+        if type not in self._image_metadata:
+            raise MarvelpyError('Invalid image type.')
+
+        if size not in self._image_metadata[type]:
+            raise MarvelpyError('Invalid image size.')
+
+        return {
+            'url': '%s/%s_%s.%s' % (image_object['path'], type, size, image_object['extension']),
+            'width': self._image_metadata[type][size]['width'],
+            'height': self._image_metadata[type][size]['height']
+        }
