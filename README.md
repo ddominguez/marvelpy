@@ -76,13 +76,17 @@ print response.text
 # get thumbail and image urls
 # > marvel.image(IMAGE_OBJECT, IMAGE_TYPE, IMAGE_SIZE)
 # types: portrait, standard, landscape, full
-# sizes: small, medium, large, ..etc
+# portrait|standard|landscape sizes: small, medium, large, xlarge, fantastic, uncanny, incredible, amazing
+# full sizes: detail, full
 # see more sizes at http://developer.marvel.com/documentation/images
 response = marvel.characters(id=1009214)
 result = response.json()['data']['results'][0]
-thumbnail = marvel.image(result['thumbnail'], 'landscape', 'incredible')
+thumbnail = marvel.image(result['thumbnail'], 'standard', 'medium')
+fullimage = marvel.image(result['thumbnail'], 'full', 'full')
 print thumbnail
-'{'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584/landscape_incredible.jpg', 'width': 464, 'height': 261}'
+# {'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584/landscape_incredible.jpg', 'width': 464, 'height': 261}
+print fullimage
+# {'url': u'http://i.annihil.us/u/prod/marvel/i/mg/3/90/526165df2b584.jpg'}
 # NOTE: full images do not return width or height
 ```
 
