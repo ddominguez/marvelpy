@@ -14,15 +14,16 @@ class Marvel(object):
         self._base_uri = 'http://gateway.marvel.com/v%s/public' % version
         self._request_uri = None
 
-    def get(self, uri, params={}, etag=None):
+    def get(self, uri, params=None, etag=None):
         if uri.strip() == '':
             raise MarvelpyError('Resource URI is blank.')
         if not uri.startswith(self._base_uri):
             raise MarvelpyError('Invalid Marvel API URI.')
         self._request_uri = uri
         ts = str(time())
-        hash = md5(ts + self._private_key + self._api_key)
-        params.update({'apikey': self._api_key, 'ts': ts, 'hash': hash.hexdigest()})
+        hashed_key = md5(ts + self._private_key + self._api_key)
+        if isinstance(params, dict):
+            params.update({'apikey': self._api_key, 'ts': ts, 'hash': hashed_key.hexdigest()})
         headers = {'Accept': 'application/json'}
         if etag:
             headers.update({'If-None-Match': etag})
