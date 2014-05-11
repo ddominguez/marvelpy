@@ -38,7 +38,8 @@ class Marvel(object):
                 uri = '%s/%s' % (uri, list_type)
         return uri
 
-    def _kwargs(self, kwargs):
+    @staticmethod
+    def _kwargs(kwargs):
         kw = {
             'id': None,
             'list_type': None,
@@ -50,7 +51,7 @@ class Marvel(object):
             if k in kwargs:
                 kw[k] = kwargs[k]
 
-        return (kw['id'], kw['list_type'], kw['params'], kw['etag'])
+        return kw['id'], kw['list_type'], kw['params'], kw['etag']
 
     def _get_response(self, collection, kwargs):
         id, list_type, params, etag = self._kwargs(kwargs)
