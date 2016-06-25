@@ -158,27 +158,27 @@ class Marvel(object):
             }
         }
 
-    def image(self, image_object, type, size):
-        if set(['path', 'extension']) != set(image_object.keys()):
+    def image(self, image_object, image_type, size):
+        if {'path', 'extension'} != set(image_object.keys()):
             raise MarvelpyError('Marvel image object missing path or extension.')
 
-        if type == 'full' and size == 'detail':
+        if image_type == 'full' and size == 'detail':
             return {
                 'url': '%s/detail.%s' % (image_object['path'], image_object['extension'])
             }
-        if type == 'full' and size == 'full':
+        if image_type == 'full' and size == 'full':
             return {
                 'url': '%s.%s' % (image_object['path'], image_object['extension'])
             }
 
-        if type not in self._image_metadata:
+        if image_type not in self._image_metadata:
             raise MarvelpyError('Invalid image type.')
 
-        if size not in self._image_metadata[type]:
+        if size not in self._image_metadata[image_type]:
             raise MarvelpyError('Invalid image size.')
 
         return {
-            'url': '%s/%s_%s.%s' % (image_object['path'], type, size, image_object['extension']),
-            'width': self._image_metadata[type][size]['width'],
-            'height': self._image_metadata[type][size]['height']
+            'url': '%s/%s_%s.%s' % (image_object['path'], image_type, size, image_object['extension']),
+            'width': self._image_metadata[image_type][size]['width'],
+            'height': self._image_metadata[image_type][size]['height']
         }
