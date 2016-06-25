@@ -14,15 +14,16 @@ class Marvel(object):
         self._base_uri = 'http://gateway.marvel.com/v%s/public' % version
         self._request_uri = None
 
-    def get(self, uri, params={}, etag=None):
+    def get(self, uri, params=None, etag=None):
         if uri.strip() == '':
             raise MarvelpyError('Resource URI is blank.')
         if not uri.startswith(self._base_uri):
             raise MarvelpyError('Invalid Marvel API URI.')
         self._request_uri = uri
         ts = str(time())
-        hash = md5(ts + self._private_key + self._api_key)
-        params.update({'apikey': self._api_key, 'ts': ts, 'hash': hash.hexdigest()})
+        hashed_key = md5(ts + self._private_key + self._api_key)
+        if isinstance(params, dict):
+            params.update({'apikey': self._api_key, 'ts': ts, 'hash': hashed_key.hexdigest()})
         headers = {'Accept': 'application/json'}
         if etag:
             headers.update({'If-None-Match': etag})
@@ -37,7 +38,8 @@ class Marvel(object):
                 uri = '%s/%s' % (uri, list_type)
         return uri
 
-    def _kwargs(self, kwargs):
+    @staticmethod
+    def _kwargs(kwargs):
         kw = {
             'id': None,
             'list_type': None,
@@ -49,7 +51,7 @@ class Marvel(object):
             if k in kwargs:
                 kw[k] = kwargs[k]
 
-        return (kw['id'], kw['list_type'], kw['params'], kw['etag'])
+        return kw['id'], kw['list_type'], kw['params'], kw['etag']
 
     def _get_response(self, collection, kwargs):
         id, list_type, params, etag = self._kwargs(kwargs)
@@ -156,27 +158,27 @@ class Marvel(object):
             }
         }
 
-    def image(self, image_object, type, size):
-        if set(['path', 'extension']) != set(image_object.keys()):
+    def image(self, image_object, image_type, size):
+        if {'path', 'extension'} != set(image_object.keys()):
             raise MarvelpyError('Marvel image object missing path or extension.')
 
-        if type == 'full' and size == 'detail':
+        if image_type == 'full' and size == 'detail':
             return {
                 'url': '%s/detail.%s' % (image_object['path'], image_object['extension'])
             }
-        if type == 'full' and size == 'full':
+        if image_type == 'full' and size == 'full':
             return {
                 'url': '%s.%s' % (image_object['path'], image_object['extension'])
             }
 
-        if type not in self._image_metadata:
+        if image_type not in self._image_metadata:
             raise MarvelpyError('Invalid image type.')
 
-        if size not in self._image_metadata[type]:
+        if size not in self._image_metadata[image_type]:
             raise MarvelpyError('Invalid image size.')
 
         return {
-            'url': '%s/%s_%s.%s' % (image_object['path'], type, size, image_object['extension']),
-            'width': self._image_metadata[type][size]['width'],
-            'height': self._image_metadata[type][size]['height']
+            'url': '%s/%s_%s.%s' % (image_object['path'], image_type, size, image_object['extension']),
+            'width': self._image_metadata[image_type][size]['width'],
+            'height': self._image_metadata[image_type][size]['height']
         }
